@@ -2,7 +2,6 @@
 #Criando dicionario dentro de dicionario{} para estruturar os valores
 #variavel AGENDA vai ser global
 
-AGENDA = {}
 
 AGENDA = {
     'leo': {
@@ -53,3 +52,48 @@ def editar_contato(nome, campo, novo_valor):
 def excluir_contato(nome):
     AGENDA.pop(nome)
     print('>>>>>> {} removido com sucesso'.format(nome))
+
+def mostrar_menu():
+    print('##############################')
+    print('1 - Mostrar todos os contatos')
+    print('2 - Buscar contato')
+    print('3 - Adicionar contato')
+    print('4 - Editar contato')
+    print('5 - Excluir contato')
+    print('6 - Fechar agenda')
+    print('##############################')
+
+def selecao_menu(opcao):
+    # mostrando todos contatos
+    if opcao == '1':
+        mostrar_contatos()
+    # buscando contato
+    elif opcao == '2':
+        proc = input('Digite o nome do contato: ')
+        buscar_contato(proc)
+    # adicionando contato
+    elif opcao == '3':
+        nome = input('Nome: ')
+        celular = input('Celular: ')
+        email = input('Email: ')
+        endereco = input('Endereço: ')
+        incluir_contato(nome, celular, email, endereco)
+    # editando contato
+    elif opcao == '4':
+        nome = input('Nome do contato: ')
+        campo = input('Campo a ser alterado: [celular], [email], [endereço]')
+        valor = input('Novo valor: ')
+        editar_contato(nome, campo, valor)
+    # excluindo contato
+    elif opcao == '5':
+        nome = input('Nome: ')
+        excluir_contato(nome)
+    else:
+        print('Opção inválida')
+
+opcao = None
+while(opcao != '6'):
+    mostrar_menu()
+    opcao = input('Escolha uma opção: ')
+    selecao_menu(opcao)
+
