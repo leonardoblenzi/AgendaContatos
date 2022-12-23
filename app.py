@@ -21,11 +21,14 @@ AGENDA = {
     }
 }
 
-def mostrar_contatos(contato = ''):
-    for contato in AGENDA:
-        #vai chamar a funcao buscar contato passando o for, no qual vai printar todos os contato da agenda
-        buscar_contato(contato)
-        print('##################################')
+def mostrar_contatos():
+    if AGENDA:
+        for contato in AGENDA:
+            #vai chamar a funcao buscar contato passando o for, no qual vai printar todos os contato da agenda
+            buscar_contato(contato)
+            print('##################################')
+    else:
+        print('Agenda vazia')
 
 
 def buscar_contato(contato_procurado):
@@ -34,8 +37,11 @@ def buscar_contato(contato_procurado):
         print('Celular:', AGENDA[contato_procurado]['celular'])
         print('Email:', AGENDA[contato_procurado]['email'])
         print('Endereço:', AGENDA[contato_procurado]['endereco'])
-    except:
-        print('Contato não encontrado')
+    except KeyError:
+            print('Contato inexistente')
+    except Exception as erro:
+            print('Um erro inesperado ocorreu')
+            print(erro)
 
 def incluir_contato(nome, celular, email, endereco):
     AGENDA[nome] = {'celular': celular,
@@ -50,8 +56,14 @@ def editar_contato(nome, campo, novo_valor):
     print('>>>>>> {} de {} alterado com sucesso'.format(campo, nome))
 
 def excluir_contato(nome):
-    AGENDA.pop(nome)
-    print('>>>>>> {} removido com sucesso'.format(nome))
+    try:
+        AGENDA.pop(nome)
+        print('>>>>>> {} removido com sucesso'.format(nome))
+    except KeyError:
+        print('Contato inexistente')
+    except Exception as erro:
+        print('Um erro inesperado ocorreu')
+        print(erro)
 
 def mostrar_menu():
     print('##############################')
@@ -80,10 +92,15 @@ def selecao_menu(opcao):
         incluir_contato(nome, celular, email, endereco)
     # editando contato
     elif opcao == '4':
-        nome = input('Nome do contato: ')
-        campo = input('Campo a ser alterado: [celular], [email], [endereço]')
-        valor = input('Novo valor: ')
-        editar_contato(nome, campo, valor)
+        try:
+            nome = input('Nome do contato: ')
+            AGENDA[nome]
+            print('>>>>>> Editando contato: {}'.format(nome))
+            campo = input('Campo a ser alterado: [celular], [email], [endereço]: ')
+            valor = input('Novo valor: ')
+            editar_contato(nome, campo, valor)
+        except:
+            print('Contato não existe')
     # excluindo contato
     elif opcao == '5':
         nome = input('Nome: ')
