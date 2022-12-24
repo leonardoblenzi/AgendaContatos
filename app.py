@@ -64,15 +64,29 @@ def excluir_contato(nome):
     except Exception as erro:
         print('Um erro inesperado ocorreu')
         print(erro)
-
+def exportar_contato():
+    try:
+        with open('agenda.csv', 'w') as arquivo:
+            #especificando itens na primeira linha
+            arquivo.write('nome, celular, email, endereco\n')
+            for contato in AGENDA:
+                celular = AGENDA[contato]['celular']
+                email = AGENDA[contato]['email']
+                endereco = AGENDA[contato]['endereco']
+                arquivo.write('{},{},{},{}\n'.format(contato, celular, email, endereco))
+        print('>>>>>>Arquivo exportado com sucesso')
+    except Exception as erro:
+        print('>>>>>>Algum erro ocorreu durante a exportação')
+        print(erro)
 def mostrar_menu():
     print('##############################')
+    print('0 - Fechar agenda')
     print('1 - Mostrar todos os contatos')
     print('2 - Buscar contato')
     print('3 - Adicionar contato')
     print('4 - Editar contato')
     print('5 - Excluir contato')
-    print('6 - Fechar agenda')
+    print('6 - Exportar contatos para .CSV')
     print('##############################')
 
 def selecao_menu(opcao):
@@ -105,11 +119,14 @@ def selecao_menu(opcao):
     elif opcao == '5':
         nome = input('Nome: ')
         excluir_contato(nome)
+    #exportando contatos
+    elif opcao == '6':
+        exportar_contato()
     else:
         print('Opção inválida')
 
 opcao = None
-while(opcao != '6'):
+while(opcao != '0'):
     mostrar_menu()
     opcao = input('Escolha uma opção: ')
     selecao_menu(opcao)
